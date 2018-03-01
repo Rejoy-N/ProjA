@@ -1,0 +1,205 @@
+{{define "hello"}}
+{{template "header" .}}
+
+<div class ="top-bar">
+	<div class="top-bar-title"></div>
+	<b>Hi!</b>
+	<div class="top-bar-left">
+	</div>
+	<div class="top-bar-right">
+		<ul class="dropdown menu" data-dropdown-menu>
+			<li>
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fi-star">Login</i></a>
+				<ul class="dropdown pane">
+					<div class="callout primary">
+					<div class="row">
+						<div class="small-1 columns"></div>	
+						<div class="small-2 columns"></div>	
+						<form method="POST" action="/home">
+									<label class="form-control" for="uname">User Name</label>
+									<input class="form-control" type="text" id="uname" name="uname">
+									<label class="form-control" for="password">Password</label>
+									<input class="form-control" type="password" id="password" name="password"><br/>
+									<button type="submit" class="alert button" style="width:40%;float:left"> Submit</button>
+									<button type="submit" class="alert button" style="width:40%;float:right"> Register</button>
+						</form>
+						<div class="small-1 columns"></div>	
+					</div>
+					</div>
+				</ul>
+			</li>
+		</ul>
+	</div>
+</div>
+
+&ensp;
+
+<div class="row collapse">
+  <div class="small-2 columns"> a</div>
+  <div class="small-8 columns"> 
+		<input type="search" placeholder="search" style="position: relative;">
+  </div>
+  <div class="small-2 columns"> </div>
+</div>
+
+&ensp;
+
+<div class="row">
+	<div class="small-3 columns">
+		<div class="row">
+			<div class="callout small">block1</div>
+		</div>
+		<div class="row">row2</div>
+	</div>
+	<div class="small-9 columns">
+		<div class="callout large">
+		<div class="row small-up-3">
+			<div class="column">
+			<div class="callout small"></div>
+			</div>
+			<div class="column">
+			<div class="callout small"></div>
+			</div>	
+			<div class="column">
+			<div class="callout small"></div>
+			</div>						
+		</div>
+		<div class="row">row3</div>
+		<div class="row">row4</div>
+		</div>
+	</div>	
+</div> 
+
+<!--
+<div class="row">
+	<div class="medium-4 columns">
+		<h4> hi</h4>
+		</div>
+	</div>
+	<div class="medium-8 columns">
+		<div class="row column">
+		<div class="row small-up-2 medium-up-3">			
+			<div class="column">
+				<div class="card">
+					<img src="/assets/redmiupdated.jpeg">
+					<div class="card-section">
+						<h4>This is a card.</h4>
+						<p>It has an easy to override visual style, and is appropriately subdued.</p>
+					</div>
+				</div>
+			</div>
+			<div class="column">
+				<div class="card">
+					<img src="/assets/6LeEco.jpeg">
+					<div class="card-section">
+						<h4>This is a card.</h4>
+						<p>It has an easy to override visual style, and is appropriately subdued.</p>
+					</div>
+				</div>
+			</div>
+		</div> 
+		</div> 
+		<div class="row column">
+		<div class="row small-up-2 medium-up-3">			
+			<div class="column">
+				<div class="card">
+					<img src="/assets/redmiupdated.jpeg">
+					<div class="card-section">
+						<h4>This is a card.</h4>
+						<p>It has an easy to override visual style, and is appropriately subdued.</p>
+					</div>
+				</div>
+			</div>
+			<div class="column">
+				<div class="card">
+					<img src="/assets/6LeEco.jpeg">
+					<div class="card-section">
+						<h4>This is a card.</h4>
+						<p>It has an easy to override visual style, and is appropriately subdued.</p>
+					</div>
+				</div>
+			</div>
+		</div> 
+		</div> 	
+		
+	</div>
+</div>
+-->
+
+<div class="large-12 columns">
+	<div class="alert alert-info" role="alert">
+    <a class="alert-link" href="/signup">Sign Up</a>
+	</div>
+</div>	
+
+<!-- 
+
+	  <ul class="menu" >
+			<li><input type="search" placeholder="search"></li>
+			<li><Button type="button" class="button">Search</Button></li>
+		</ul>
+	</div>
+	
+<div class="primary callout">
+
+<button type="button" data-toggle="dropdown-login"> login</button>						
+						<form method="POST" action="/home">
+									<label class="form-control" for="uname">User Name</label>
+									<input class="form-control" type="text" id="uname" name="uname">
+									<label class="form-control" for="password">Password</label>
+									<input class="form-control" type="password" id="password" name="password"><br/>
+									<div class="row">
+										<div class="small-2-columns">
+											<button type="Submit" class="alert button" style="align:center"> Submit</button>
+										</div>	
+										<div class="small-2-columns">
+											<button type="Submit" class="alert button" style="align:center"> Submit</button>
+										</div>
+									</div>
+						</form>
+						</div>	
+
+
+<div class="navbar navbar-inverse navbar-fixed-top" >
+	<div class="container-fluid">
+			<div class="navbar-header">
+				<a href="#" class="navbar-brand"> Hi</a>
+			</div>
+			<ul class="navbar-nav">
+				<li></li>
+			</ul>
+			<ul class="navbar-nav navbar-right">
+				<li style="width:300px">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-log-in">Login</span></a>
+						<div class="dropdown-menu">
+							<div class="panel panel-info">
+								<div class="panel-header"></div>
+								<div class="panel-body"></div>
+									<div class="container">
+										<form method="POST" action="/home">
+										<label class="form-control" for="uname">User Name</label>
+										<input class="form-control" type="text" id="uname" name="uname">
+										<label class="form-control" for="password">Password</label>
+										<input class="form-control" type="password" id="password" name="password">
+										<button class="btn btn-alert" type="submit"> Submit</button>
+										</form>
+									</div>
+								<div class="panel-footer"></div>
+							</div>
+						</div>
+					<form action="/home" method="POST">
+						<button type="submit" class="btn btn-link navbar-btn navbar-link">
+							<span class="glyphicon glyphicon-log-in"> Login</span>
+						</button> 
+					</form> 
+				</li>
+			</ul>
+	</div>
+</div>
+-->
+
+
+
+{{template "footer" .}}
+{{end}}
+

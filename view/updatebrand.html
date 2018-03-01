@@ -1,0 +1,83 @@
+{{define "updatebrand"}}
+{{template "header" .}}
+
+<div class="top-bar">
+	<div class="top-bar-title"> Manage Brands</div>
+	<div class="top-bar-left"></div>
+	<div class="top-bar-right"></div>
+</div>
+
+&ensp;
+{{range .}}
+<div  class="row collapse">
+	<div class="small-1 columns"></div>
+	<div class="small-9 columns small-centered columns">
+			<div class="callout large">
+			<form method="POST" action="/updatebrand" enctype="multipart/form-data" >	
+				<div class="row small-up-12 collapse">
+					<div class="small-2 columns" ><label for="brandname" class="text-left middle"><b>Brand ID</b></div>
+					<div class="small-10 columns" >
+						<input type="text" id ="brandid" name="brandid" value={{ .buid}} style="width:90%;" >
+					</div>				
+				</div>
+				<div class="row small-up-12 collapse">
+					<div class="small-2 columns" ><label for="brandname" class="text-left middle"><b>Brand Status</b></div>
+					<div class="small-10 columns" >
+						<input type="text" id="brandstatus" name="brandstatus" value={{ .bstatus}} style="width:90%;" >
+					</div>				
+				</div>					
+				<div class="row small-up-12 collapse">				
+					<div class="small-2 columns"><label for="brand" class="text-left middle"><b>Brand Logo</b></label></div>
+					<div class="small-8 columns">
+						<div class="media-object">
+							<div class="media-object-section">
+								 <img id="brandpic" src="/assets/brands/{{ .bimage}}"  style="width:30%;"> 
+								 <input type="hidden" name ="imgname" id="imgname" value={{ .bimage}} >
+							</div> 
+						</div>  
+					</div>
+					<div class="small-2 columns">
+						<label for="brandlogo" class="button secondary expanded">Upload Brand Logo</label>
+						<input type="file" id="brandlogo" name="brandlogo"  class="show-for-sr">
+					</div>					
+				</div>				
+				
+				<div class="row small-up-12 collapse">
+					<div class="small-2 columns" style="height:20px;"></div>
+					<div class="small-8 columns" style="height:20px;"></div>
+					<div class="small-2 columns" style="height:20px;"></div>
+				</div>				
+				<div class="row small-up-12 collapse">
+					<div class="small-2 columns" ><label for="brandname" class="text-left middle"><b>Brand Name</b></div>
+					<div class="small-8 columns" ><input type="text" id="brandname" name="brandname" value={{ .bname}} style="width:90%;" ></div>
+					<div class="small-2 columns" ><button type="submit" class="button expanded"> Update Brand</button> </div>					
+				</div>
+			</form>			
+			</div>
+{{end}}
+</div>
+
+
+<script>
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+            
+        reader.onload = function (e) {
+            $('#brandpic').attr('src', e.target.result);
+        }
+            
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+    
+$('#brandlogo').change(function(){
+    readURL(this);
+});
+
+	
+</script>
+
+{{template "footer" .}}
+{{end}}
+

@@ -1,0 +1,105 @@
+{{define "abcd"}}
+{{template "header" .}}
+
+<div class="top-bar">
+	<div class="top-bar-title"></div>
+	<b>Hi!</b>
+	<div class="top-bar-left"></div>
+	<div class="top-bar-right">
+		<ul class="dropdown menu" data-dropdown-menu>
+			<li>
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-in-focus="false"><i class="fi-star">Login</i></a>
+				<ul class="dropdown pane">
+					<div class="callout primary">
+					<div class="row">
+						<div class="small-1 columns"></div>	
+						<div class="small-2 columns"></div>	
+						<form method="POST" action="/home">
+									<label class="form-control" for="uname">User Name</label>
+									<input class="form-control" type="text" id="uname" name="uname">
+									<label class="form-control" for="password">Password</label>
+									<input class="form-control" type="password" id="password" name="password"><br/>
+									<button type="submit" class="alert button" style="width:40%;float:left"> Submit</button>
+									<button type="submit" class="alert button" style="width:40%;float:right"> Register</button>
+						</form>
+						<div class="small-1 columns"></div>	
+					</div>
+					</div>
+				</ul>
+			</li>
+		</ul>
+	</div>
+</div>
+
+&ensp;
+
+<div class="row collapse">
+  <div class="small-2 columns"> a</div>
+  <div class="small-8 columns"> 
+		<input type="search" placeholder="search" style="position: relative;">
+  </div>
+  <div class="small-2 columns"> </div>
+</div>
+
+&ensp;
+
+
+<button class="button" type="button" data-toggle="example-dropdown-1">Hoverable Dropdown</button>
+<div class="dropdown-pane" id="example-dropdown-1" data-dropdown data-hover="true" data-hover-pane="true">
+  Just some junk that needs to be said. Or not. Your choice.
+</div>
+
+&ensp;
+
+<button class="button" type="button" data-toggle="example-dropdown">Toggle Dropdown</button>
+<div class="dropdown-pane" id="example-dropdown" data-dropdown data-auto-focus="true">
+  Example form in a dropdown.
+  <form>
+    <div class="row">
+      <div class="medium-6 columns">
+        <label>Name
+          <input type="text" placeholder="Kirk, James T.">
+        </label>
+      </div>
+      <div class="medium-6 columns">
+        <label>Rank
+          <input type="text" placeholder="Captain">
+        </label>
+      </div>
+    </div>
+  </form>
+</div>
+
+&ensp;
+
+
+<!--
+<div class="row">
+	<div class="small-3 columns">
+		<div class="row">
+			<div class="callout small">block1</div>
+		</div>
+		<div class="row">row2</div>
+	</div>
+	<div class="small-9 columns">
+		<div class="callout large">
+		<div class="row small-up-3">
+			<div class="column">
+			<div class="callout small"></div>
+			</div>
+			<div class="column">
+			<div class="callout small"></div>
+			</div>	
+			<div class="column">
+			<div class="callout small"></div>
+			</div>						
+		</div>
+		<div class="row">row3</div>
+		<div class="row">row4</div>
+		</div>
+	</div>	
+</div>
+-->
+{{template "footer" .}}
+{{end}}
+

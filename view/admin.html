@@ -1,0 +1,85 @@
+{{define "admin"}}
+{{template "header" .}}
+
+<div class="top-bar">
+	<div class="top-bar-title"> Admin</div>
+	<div class="top-bar-left"></div>
+	<div class="top-bar-right"></div>
+</div>
+
+&ensp;
+
+<div  class="row collapse">
+	<div class="small-1">
+	</div>
+	<div class="small-9 columns small-centered columns">
+		<div class="callout large">
+			<div class="row small-up-1 medium-up-3">
+				<div class="column">
+					<div class="card">
+						<div class="card-divider"> Divider</div>
+						<div class="card-section">
+							<div class="media-object" style="text-align: center;">
+								<i class="fi-star" ></i>	
+							</div>	
+							<form method="GET" action="/brand"><button class="primary button" type="submit" style="width:100%;">Manage Brand</button></form>
+						</div>
+					</div>
+				</div>
+				<div class="column">
+					<div class="card">
+						<div class="card-divider"> Divider</div>
+						<div class="card-section">
+							<div class="media-object" style="text-align: center;">
+								<i class="fi-star" ></i>	
+							</div>	
+							<form method="POST" action="/product"><button class="primary button" type="submit" style="width:100%;" >Manage Product</button></form>
+						</div>
+					</div>
+				</div>
+				<div class="column">
+					<div class="card">
+						<div class="card-divider"> Divider</div>
+						<div class="card-section">
+							<div class="media-object" style="text-align: center;">
+								<i class="fi-star" ></i>	
+							</div>	
+							<form method="POST" action="/features"><button class="primary button" type="submit" style="width:100%;" >Manage Product Features</button></form>
+						</div>
+					</div>
+				</div>
+				<div class="column" style="height:30px;"></div>
+				<div class="column" style="height:30px;"></div>
+				<div class="column" style="height:30px;"></div>
+				<div class="column">
+					<div class="card">
+						<div class="card-divider"> Divider</div>
+						<div class="card-section">
+							<div class="media-object" style="text-align: center;">
+								<i class="fi-star" ></i>	
+							</div>	
+						<button class="primary button" type="button" style="width:100%;" >Manage User Information</button>
+						</div>
+					</div>					
+				</div>	
+				<div class="column">
+					<div class="card">
+						<div class="card-divider"> Divider</div>
+						<div class="card-section">
+							<div class="media-object" style="text-align: center;">
+								<i class="fi-star" ></i>	
+							</div>	
+						<button class="primary button" type="button" style="width:100%;" >View Reports</button>
+						</div>
+					</div>					
+				</div>								
+			</div>
+		</div>
+	</div>
+	<div class="small-1 columns"></div>
+</div>
+
+
+{{template "footer" .}}
+{{end}}
+

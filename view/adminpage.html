@@ -1,0 +1,62 @@
+{{define "adminpage"}}
+{{template "header" .}}
+
+<div class ="top-bar">
+	<div class="top-bar-title"></div>
+	<b>Hi!</b>
+	<div class="top-bar-left">
+	</div>
+	<div class="top-bar-right">
+	</div>
+</div>
+
+&ensp;
+
+<div class="row collapse">
+  <div class="small-2 columns"> </div>
+  <div class="small-8 columns small-centered"> 
+		<form method="POST" action="/">
+			<label class="form-control" for="uname">User Name</label>
+			{{with .Errors.username}}
+			<div class="callout alert">
+				{{.}}
+			</div>
+			{{end}}				
+			<input class="form-control" type="text" id="uname" name="uname">
+			<label class="form-control" for="password">Password</label>
+			{{with .Errors.password}}
+			<div class="callout alert">
+				{{.}}
+			</div>
+			{{end}}				
+			<input class="form-control" type="password" id="password" name="password"><br/>
+			<button type="submit" class="alert button expanded" > Login</button>
+		</form>
+		<form method="GET" action="/adminregister">
+			<button type="submit" class="alert button expanded" > Register</button>
+		</form>
+		<div>
+		{{with .Errors.email}}
+		<div class="callout alert">
+			{{.}}
+		</div>
+		{{end}}	
+		<button class="alert button expanded" type="button" data-toggle="example-dropdown-1">Forgot Password</button>
+			<div class="dropdown-pane" style="width:62.5%;" id="example-dropdown-1" data-dropdown data-hover="true" data-hover-pane="true">
+				<form method="Post" action="/adminpage">
+					<label class="form-control" for="email">Enter Registered Email ID</label>
+					<input class="form-control" type="text" id="email" name="email">
+					<button type="submit" class="alert button expanded" > Reset Password Request</button>
+				</form>
+			</div>	
+		</div>
+
+  </div>
+  <div class="small-2 columns"> </div>
+</div>
+
+&ensp;
+
+{{template "footer" .}}
+{{end}}
+

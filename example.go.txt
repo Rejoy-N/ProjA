@@ -1,0 +1,11 @@
+package main
+
+func main() {
+	/*
+		args := []int{1, 2, 3}
+		query := fmt.Sprintf("Insert into delbrands (buid) values(%s)",
+			strings.Join(strings.Split(strings.Repeat("?", len(args)), ""), ","))
+		fmt.Println(query)
+	*/
+
+}

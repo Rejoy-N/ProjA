@@ -1,0 +1,47 @@
+{{define "hello"}}
+{{template "header" .}}
+
+<div class="navbar navbar-inverse navbar-fixed-top" >
+	<div class="container-fluid">
+			<div class="navbar-header">
+				<a href="#" class="navbar-brand"> Hi</a>
+			</div>
+			<ul class="navbar-nav">
+				<li></li>
+			</ul>
+			<ul class="navbar-nav navbar-right">
+				<li style="width:300px">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-log-in">Login</span></a>
+						<div class="dropdown-menu">
+							<div class="panel panel-info">
+								<div class="panel-header"></div>
+								<div class="panel-body"></div>
+									<div class="container">
+										<form method="POST" action="/home">
+										<label class="form-control" for="uname">User Name</label>
+										<input class="form-control" type="text" id="uname" name="uname">
+										<label class="form-control" for="password">Password</label>
+										<input class="form-control" type="password" id="password" name="password">
+										<button class="btn btn-alert" type="submit"> Submit</button>
+										</form>
+									</div>
+								<div class="panel-footer"></div>
+							</div>
+						</div>
+					<!-- <form action="/home" method="POST">
+						<button type="submit" class="btn btn-link navbar-btn navbar-link">
+							<span class="glyphicon glyphicon-log-in"> Login</span>
+						</button> 
+					</form> -->
+				</li>
+			</ul>
+	</div>
+</div>
+
+<div class="alert alert-info" role="alert">
+    <a class="alert-link" href="/signup">Sign Up</a>
+</div>
+
+{{template "footer" .}}
+{{end}}
+

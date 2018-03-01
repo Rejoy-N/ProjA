@@ -1,0 +1,169 @@
+{{define "product"}}
+{{template "header" .}}
+
+<div class="top-bar">
+	<div class="top-bar-title"> Manage Product</div>
+	<div class="top-bar-left">
+		<ul class="tabs" data-tabs id="product-tabs">
+			<li class="tabs-title is-active"><a href="#panel1" aria-selected="true">Manage Feature</a></li>
+			<li class="tabs-title"><a href="#panel2" >Manage Product Category</a></li>
+		</ul>
+	</div>
+	<div class="top-bar-right"></div>
+</div>
+
+&ensp;
+
+<div class="tabs-content" data-tabs-content="product-tabs">
+	<div class="tabs-panel is-active" id="panel1">
+		<div  class="row collapse">
+			<div class="small-1 columns">
+			</div>
+				<div class="small-9 columns small-centered columns">
+					<div class="callout large">
+						<div class="row small-up-12 collapse">
+							<div class="small-2 columns">
+								<label for="product" class="text-left top"><b>Select Product Category</b></label>
+							</div>
+							<div class="small-8 columns">
+								<button class="dropdown button expanded" type="button" data-toggle="product-category" style="width:90%;text-align:left;"> Select Feature Category</button>
+								<div class="dropdown-pane" id="product-category" data-dropdown data-hover="true" data-hover-pane="true">
+									<div class="row">1</div>
+									<div class="row">2</div>
+								</div>
+							</div>
+							<div class="small-2 columns">							
+							</div>
+						</div>	
+						<div class="row small-up-12 collapse">
+							<div class="small-2 columns" style="height:20px;"></div>	
+							<div class="small-8 columns" style="height:20px;"></div>
+							<div class="small-2 columns" style="height:20px;"></div>																					
+						</div>												
+						<div class="row small-up-12 collapse">
+							<div class="small-2 columns">
+								<label for="feature" class="text-left middle"><b>Add a Feature</b></label>
+							</div>
+							<div class="small-8 columns ">
+								<input type="text" id="feature" placeholder="Enter the Feature Description" style="width:90%;" >
+							</div>
+							<div class="small-2 columns">
+								<button type="submit" class="button primary text-right middle expanded"> Add </button>
+							</div>
+						</div>
+					</div>
+				<div class="callout large">
+					<table>
+						<thead>
+							<tr>
+								<th>Feature Category</th>
+								<th>Feature Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>hi</td>
+								<td>hi</td>
+							</tr>
+							<tr>
+								<td>hi</td>
+								<td>hi</td>
+							</tr>				
+						</tbody>
+					</table>
+				</div>	
+			</div>
+		<div class="small-1 columns"></div>
+	</div>
+</div>
+	<div class="tabs-panel" id="panel2">
+		<div  class="row collapse">
+			<div class="small-1 columns">
+			</div>
+				<div class="small-9 columns small-centered columns">
+					<div class="callout large">
+						<div class="row small-up-12 collapse">
+							<div class="small-2 columns">
+								<label for="product" class="text-left top"><b>Add a Product Category</b></label>
+							</div>
+							<div class="small-8 columns ">
+								<input type="text" id="feature" placeholder="Enter the Product Category Description" style="width:90%;" >
+							</div>
+							<div class="small-2 columns">
+								<button type="submit" class="button primary text-right middle expanded"> Add </button>
+							</div>
+						</div>
+					</div>
+				<div class="callout large">
+					<table>
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Product Category Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>hi</td>
+								<td>hi</td>
+							</tr>
+							<tr>
+								<td>hi</td>
+								<td>hi</td>
+							</tr>				
+						</tbody>
+					</table>
+				</div>	
+			</div>
+		<div class="small-1 columns"></div>
+	</div>
+	</div>
+</div>
+
+<!--
+<div  class="row collapse">
+	<div class="small-1 columns">
+	</div>
+	<div class="small-9 columns small-centered columns">
+		<div class="callout large">
+			<div class="row small-up-12 collapse">
+			<div class="small-2 columns">
+					<label for="feature" class="text-left middle"><b>Add a Brand</b></label>
+			</div>
+			<div class="small-8 columns ">
+				<input type="text" id="feature" placeholder="Enter the Feature Description" style="width:90%;" >
+			</div>
+			<div class="small-2 columns">
+				<button type="submit" class="button primary text-right middle"> Add Brand</button>
+			</div>
+			</div>
+		</div>
+	<div class="callout large">
+		<table>
+			<thead>
+				<tr>
+					<th>Brand Logo</th>
+					<th>Brand Name</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>hi</td>
+					<td>hi</td>
+				</tr>
+				<tr>
+					<td>hi</td>
+					<td>hi</td>
+				</tr>				
+			</tbody>
+		</table>
+	</div>	
+	</div>
+	<div class="small-1 columns"></div>
+</div>
+
+-->
+
+{{template "footer" .}}
+{{end}}
+

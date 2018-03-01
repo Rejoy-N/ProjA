@@ -1,0 +1,67 @@
+{{define "adminregister"}}
+{{template "header" .}}
+
+<div class ="top-bar">
+	<div class="top-bar-title"></div>
+	<b>Hi!</b>
+	<div class="top-bar-left">
+	</div>
+	<div class="top-bar-right">
+	</div>
+</div>
+
+&ensp;
+
+<div class="row collapse">
+  <div class="small-2 columns"> </div>
+  <div class="small-8 columns small-centered"> 
+	<h2>Admin user registration</h2>
+		<form method="POST" action="/adminregister">
+			<label class="form-control-label" for="fname">First Name</label>
+			{{with .Errors.fname}}
+			<div class="callout alert">
+				{{.}}
+			</div>
+			{{end}}					
+			<input class="form-control" type="text" id="fname" name="fname">	
+			<label class="form-control-label" for="lname">Last Name</label>	
+			{{with .Errors.lname}}
+			<div class="callout alert">
+				{{.}}
+			</div>
+			{{end}}					
+			<input class="form-control" type="text" id="lname" name="lname">		
+			<label class="form-control-label" for="email">Email Address</label>
+			{{with .Errors.email}}
+			<div class="callout alert">
+				{{.}}
+			</div>
+			{{end}}			
+			<input class="form-control" type="text" id="email" name="email">										
+			<label class="form-control-label" for="uname">User Name</label>	
+			{{with .Errors.uname}}
+			<div class="callout alert">
+				{{.}}
+			</div>
+			{{end}}					
+			<input class="form-control" type="text" id="uname" name="uname">
+			<label class="form-control-label" for="password">Password</label>
+			{{with .Errors.password}}
+			<div class="callout alert">
+				{{.}}
+			</div>
+			{{end}}							
+			<input class="form-control" type="password" id="password" name="password"><br/>
+			<label class="form-control-label" for="cpassword">Confirm Password</label>
+			<input class="form-control" type="password" id="cpassword" name="cpassword"><br/>			
+			<button type="submit" class="alert button expanded" > Register</button>
+		</form>
+  </div>
+  <div class="small-2 columns"> </div>
+</div>
+
+&ensp;
+
+{{template "footer" .}}
+{{end}}
+

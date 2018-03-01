@@ -1,0 +1,168 @@
+{{define "brand"}}
+{{template "header" .}}
+
+<div class="top-bar">
+	<div class="top-bar-title"> Manage Brands</div>
+	<div class="top-bar-left"></div>
+	<div class="top-bar-right"></div>
+</div>
+
+&ensp;
+
+<div  class="row collapse">
+	<div class="small-1 columns"></div>
+	<div class="small-9 columns small-centered columns">
+			<div class="callout large">
+			<form method="POST" action="/brand" enctype="multipart/form-data" >	
+				<div class="row small-up-12 collapse">
+					<div class="small-2 columns"><label for="brand" class="text-left middle"><b>Brand Logo</b></label></div>
+					<div class="small-8 columns">
+						<div class="media-object">
+							<div class="media-object-section">
+								 <img id="brandpic" src="/assets/brands/branddefault.jpeg" style="width:30%;"> 
+							</div> 
+						</div>  
+					</div>
+					<div class="small-2 columns">
+						<label for="brandlogo" class="button secondary expanded">Upload Brand Logo</label>
+						<input type="file" id="brandlogo" name="brandlogo"  class="show-for-sr">
+					</div>
+				</div>
+				<div class="row small-up-12 collapse">
+					<div class="small-2 columns" style="height:20px;"></div>
+					<div class="small-8 columns" style="height:20px;"></div>
+					<div class="small-2 columns" style="height:20px;"></div>
+				</div>				
+				<div class="row small-up-12 collapse">
+					<div class="small-2 columns" ><label for="brandname" class="text-left middle"><b>Brand Name</b></div>
+					<div class="small-8 columns" ><input type="text" id="brandname" name="brandname" placeholder="Enter the Brand Name.." style="width:90%;" ></div>
+					<div class="small-2 columns" ><button type="submit" class="button expanded"> Add Brand</button> </div>					
+				</div>
+			</form>			
+			</div>
+
+			<div class="callout large">
+			<div class="row small-up-12 collapse">
+				<div class="small-7 columns"> 
+					<input type="search" placeholder="search" name="Search" id="Search" onkeyup="Search()" style="position: relative; width:90%">
+				</div>	
+				<div class="small-1 columns"></div>
+				<div class="small-1 columns" style="text-align:center;">
+					<form action="/deletebrand" method="GET"> 
+					<button type="submit" class="button small expanded" id="action" name="action" value="delete" data-equalizer-watch> Delete </button>	
+					<div id="show-output1"></div>		
+					</form>	
+				</div>
+				<div class="small-1 columns"> &nbsp;</div>
+				<div class="small-1 columns" style="text-align:center;">
+					<form action="/deletebrand" method="GET">					
+					<button type="submit" class="button small expanded" id="action" name="action" value="deactivate" data-equalizer-watch> Deactivate </button>	
+					<div id="show-output2"></div>		
+					<div id="show-action2"></div>	
+					</form>									
+				</div>
+				<div class="small-1 columns" style="text-align:center;">
+					<form action="/deletebrand" method="GET">						
+					<button type="submit" class="button small expanded" id="action" name="action" value="activate" data-equalizer-watch> Activate </button>	
+					<div id="show-output3"></div>	
+					<div id="show-action3"></div>		
+					</form>										
+				</div>								
+			</div>	
+				<table>
+					<thead>
+						<tr>
+							<th>Brand Logo</th>
+							<th>Brand Name</th>
+							<th>Status</th>
+							<th style="text-align:center;"  >Update Record</th>
+						</tr>
+					</thead>
+					<tbody>
+						{{range . }}
+						<tr class="tablerow">
+							<td> <input id="checkbox" name="checkbox" value="{{ .buid}}" type="checkbox" onclick="onClickHandler()"> &nbsp; &nbsp; &nbsp; &nbsp; <img src="/assets/brands/{{ .bimage}}" style="height:40px;"></td>
+							<td class="brand-data-name"> {{ .bname}} </td>
+							<td>{{ .bstatus}} </td>
+							<td style="text-align:center; vertical-align:bottom;" ><form action="/updatebrand" method="GET"><button type="submit" class="button small" name="update" value="{{ .buid}}"> Update </button></form></td>
+						</tr>
+						{{end}}			
+					</tbody>
+				</table>
+			</div>
+	</div>	
+	<div class="small-1 columns"></div> 
+</div>
+
+
+<script>
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+            
+        reader.onload = function (e) {
+            $('#brandpic').attr('src', e.target.result);
+        }
+            
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+    
+$('#brandlogo').change(function(){
+    readURL(this);
+});
+
+function Search() {
+	var input, filter
+	input = document.getElementById("Search")
+	filter = input.value.toUpperCase();
+	a = document.getElementsByClassName("tablerow");
+	console.log(a);
+	if (a) {
+		for (i=0; i < a.length; i++) {
+			b = a[i].getElementsByClassName("brand-data-name");
+			console.log(b);
+			if (b) {
+				for (j=0; j < b.length; j++) {
+				c = b[j];	
+				if (c.innerHTML.toUpperCase().indexOf(filter) > -1) {
+					a[i].style.display = "";
+				} else {
+					a[i].style.display = "none";
+					}
+				}
+			}
+		}
+	}
+}
+
+function onClickHandler(){
+    var array =  $("input[name='checkbox']:checked").map(function(){
+    return this.value;
+}).get()
+
+	var selectedBrands = JSON.stringify(array);
+	console.log(array);
+	console.log(selectedBrands);
+	var output = "<input type='hidden' id='selectedbrandids' name='selectedbrandids' value='"+selectedBrands+"'>";
+	$("#show-output1").html(output);
+	$("#show-output2").html(output);
+	$("#show-output3").html(output);
+}
+
+
+/*
+$('.button').click(function(event){
+	// event.preventDefault();
+	var action = $(this).attr("data-button-name");
+	console.log(action);
+	var act = "<input type='hidden' id='action' name='action' value='"+action+"'>";
+	$("#show-action").html(act);
+});
+*/
+	
+</script>
+
+{{template "footer" .}}
+{{end}}
+

@@ -1,0 +1,258 @@
+var sql = "select * from table"
+rows, err := db.Query(sql)
+columns, err = rows.Columns()
+colNum := len(columns)
+
+var values = make([]interface{}, colNum)
+for i, _ := range values {
+    var ii interface{}
+    values[i] = &ii
+}
+
+for rows.Next() {
+    err := rows.Scan(values...)
+    for i, colName := range columns {
+        var raw_value = *(values[i].(*interface{}))
+        var raw_type = reflect.TypeOf(raw_value)
+
+        fmt.Println(colName,raw_type,raw_value)
+    }
+}
+
+******************************************************
+
+func (r *PublisherRepository) GetAllPublishers() []*Publisher {
+    sql := "SELECT * FROM publishers"
+    ps := make(map[int]*Publisher)
+    rows, err := connection.Query(sql)
+    if err != nil { 
+       // log 
+    }
+    for rows.Next() {
+       p := &Publisher{}
+       rows.Scan(&p.ID,&p.Name)
+       ps[p.ID] = p
+    }
+
+    sql = "SELECT * FROM books"
+    rows, err := connection.Query(sql)
+    if err != nil {
+      //log
+    }
+    for rows.Next() {
+      b := &Book{}
+      rows.Scan(&b.ID, &b.Name, &b.PublisherID)
+
+      ps[b.PublisherID].Books = append(ps[b.PublisherID].Books, b)
+    }
+
+    // you might choose to keep the map as a return value, but otherwise:
+
+    // preallocate memory for the slice
+    publishers := make([]*Publisher, 0, len(ps))
+    for _, p := range ps {
+        publishers = append(publishers, p)
+    }
+
+    return publishers
+    }
+
+***********************************
+
+package main
+
+import (
+	"database/sql"
+	"errors"
+	"fmt"
+	_ "github.com/mattn/go-sqlite3" // init() only
+	"log"
+	"os"
+)
+
+func main() {
+	const database = "/tmp/db_test.db"
+
+	os.Remove(database)
+
+	db, err := sql.Open("sqlite3", database)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+
+	sql := `
+	create table user(
+		id integer not null primary key,
+		name text,
+		dummy text
+	)
+	`
+	_, err = db.Exec(sql)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	tx, err := db.Begin()
+	if err != nil {
+		log.Fatal(err)
+	}
+	sql = `insert into user(name) values(?)`
+	for _, name := range []string{"taro", "jiro", "saburo"} {
+		_, err = db.Exec(sql, name)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+	tx.Commit()
+
+	sql = `select * from user`
+	rows, err := db.Query(sql)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var id int
+		var name, dummy string
+		rows.Scan(&id, &name, &dummy)
+		fmt.Printf("id: %d, name: %s, dummy: %s\n", id, name, dummy)
+	}
+	fmt.Println()
+
+	sql = `select * from user`
+	users, err := query(db, sql)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("%#+v\n", users)
+	fmt.Println()
+
+	var id = 2
+	sql = `select * from user where id = ?`
+	users, err = query(db, sql, id)
+	if err != nil {
+		log.Fatal(err)
+	}
+	if len(users) > 0 {
+		fmt.Printf(`user(id:%d) is "%s"`, id, users[0]["name"].([]byte))
+	}
+}
+
+func query(db *sql.DB, query string, args ...interface{}) ([]map[string]interface{}, error) {
+	if db == nil {
+		return nil, errors.New("db is nil")
+	}
+
+	rows, err := db.Query(query, args...)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	cols, err := rows.Columns()
+	if err != nil {
+		return nil, err
+	}
+
+	res := make([]map[string]interface{}, 0)
+
+	for rows.Next() {
+		container := make([]interface{}, len(cols))
+		dest := make([]interface{}, len(cols))
+		for i, _ := range container {
+			dest[i] = &container[i]
+		}
+		rows.Scan(dest...)
+		r := make(map[string]interface{})
+		for i, colname := range cols {
+			val := dest[i].(*interface{})
+			r[colname] = *val
+		}
+		res = append(res, r)
+	}
+
+	return res, nil
+}
+
+
+package main
+
+import (
+	"database/sql"
+	"fmt"
+	_ "github.com/go-sql-driver/mysql"
+)
+
+func main() {
+	db, _ := sql.Open("mysql", "...")
+	q := "SELECT * FROM t WHERE id IN ("
+	ids := []int{1, 2, 3}
+	for i := 0; i < len(ids); i++ {
+		q += "?"
+		if i < len(ids)-1 {
+			q += ","
+		}
+	}
+	q += ")"
+	stmt, _ := db.Prepare(q)
+	rows, _ := stmt.Query([]int{1, 2, 3})
+}
+
+********************************************************
+
+package main
+
+import (
+	"database/sql"
+	"fmt"
+	"strings"
+
+	_ "github.com/go-sql-driver/mysql"
+)
+
+func main() {
+	db, _ := sql.Open("mysql", "...")
+	args := []int{1, 2, 3}
+	query := fmt.Sprintf("SELECT * FROM t WHERE id IN (%s)",
+		strings.Join(strings.Split(strings.Repeat("?", len(args)), ""), ","))
+
+	stmt, _ := db.Prepare(query)
+	rows, _ := stmt.Query(args...)
+}
+
+**************************************
+To insert multiple rows using the multirow VALUES syntax:
+
+INSERT INTO films (code, title, did, date_prod, kind) VALUES
+    ('B6717', 'Tampopo', 110, '1985-02-10', 'Comedy'),
+    ('HG120', 'The Dinner Game', 140, DEFAULT, 'Comedy');
+    
+ **********************************************************
+ string to slice []string
+  
+ aInterface := data["aString"].([]interface{})
+aString := make([]string, len(aInterface))
+for _, v := range data["aString"] {
+      aString = append(aString, v.(string))
+}   
+
+package main
+
+import (
+    "fmt"
+    "encoding/json"
+)
+
+func main() {
+    js := "{\"aString\": [\"aaa_111\", \"bbb_222\"], \"whatever\":\"ccc\"}"
+    a := make(map[string]interface{})
+    json.Unmarshal([]byte(js), &a)
+    for _, v := range a["aString"].([]interface{}) {
+        str := v.(string)
+        fmt.Println(str)
+    }
+}
+
+select * from brands where buid in ('8c377408-bdf9-45ab-8b12-cac491c75f2d');
+
