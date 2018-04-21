@@ -21,55 +21,149 @@
 			</div>
 				<div class="small-9 columns small-centered columns">
 					<div class="callout large">
+						<form method="POST" action="/features">
 						<div class="row small-up-12 collapse">
 							<div class="small-2 columns">
 								<label for="feature" class="text-left top"><b>Select Feature Category</b></label>
 							</div>
 							<div class="small-8 columns">
+								<!--
 								<button class="dropdown button expanded" type="button" data-toggle="feature-category" style="width:90%;text-align:left;"> Select Feature Category</button>
-								<div class="dropdown-pane" id="feature-category" data-dropdown data-hover="true" data-hover-pane="true">
-									<div class="row">1</div>
-									<div class="row">2</div>
-								</div>
+								<div class="dropdown-pane" id="feature-category" data-dropdown data-hover="true" data-hover-pane="true"> -->
+						
+								<select drop-down-content id="select" name="select">    
+								{{with .fdropdown}}
+								{{range $index, $value := .}}
+								
+								    <option id="drop1" name=fcat{{$index}} value={{$value.fcuid}}>{{.fcatname}}</option> 
+								    
+									<div class="row">{{.fcatname}}</div> 
+								{{end}}
+								{{end}}
+							
+								</select>	    	  
 							</div>
 							<div class="small-2 columns">							
 							</div>
 						</div>	
+						
 						<div class="row small-up-12 collapse">
 							<div class="small-2 columns" style="height:20px;"></div>	
 							<div class="small-8 columns" style="height:20px;"></div>
 							<div class="small-2 columns" style="height:20px;"></div>																					
-						</div>												
+						</div>		
+								
 						<div class="row small-up-12 collapse">
 							<div class="small-2 columns">
 								<label for="feature" class="text-left middle"><b>Add a Feature</b></label>
 							</div>
 							<div class="small-8 columns ">
-								<input type="text" id="feature" placeholder="Enter the Feature Description" style="width:90%;" >
-							</div>
+								<input type="text" id="feature" name ="feature" placeholder="Enter the Feature Description" style="width:90%;" >
+							</div>							
 							<div class="small-2 columns">
 								<button type="submit" class="button primary text-right middle expanded"> Add </button>
 							</div>
 						</div>
+						</form>
 					</div>
 				<div class="callout large">
+					<div class="row small-up-12 collapse">
+						<div class="small-7 columns"> 
+							<input type="search" placeholder="search" name="Search" id="Search" onkeyup="Search()" style="position: relative; width:90%">
+						</div>	
+						<div class="small-1 columns"></div>
+						<div class="small-1 columns" style="text-align:center;">
+							<form action="/deletefeature" method="GET"> 
+							<button type="submit" class="button small expanded" id="action" name="action" value="delete" data-equalizer-watch> Delete </button>	
+							<div id="show-output1"></div>		
+							</form>	
+						</div>
+						</div> 
 					<table>
 						<thead>
 							<tr>
+								<th>Select</th>
 								<th>Feature Category</th>
 								<th>Feature Description</th>
+								<th style="text-align:center;" >Feature Update</th>
 							</tr>
 						</thead>
-						<tbody>
-							<tr>
-								<td>hi</td>
-								<td>hi</td>
-							</tr>
-							<tr>
-								<td>hi</td>
-								<td>hi</td>
-							</tr>				
-						</tbody>
+						<tbody>			
+						{{ with .features }}	
+						{{range $index, $value := .}}
+						<tr class="tablerow">
+							<td> <input id="checkbox" name="checkbox" value=1 type="checkbox" onclick="onClickHandler()"> &nbsp; &nbsp; &nbsp; &nbsp; </td>
+							<td class="feature-category-name"> {{ .fcatname}} </td>
+							<td class="feature-name"> {{ .featurename}} </td>
+
+							<td style="text-align:center; vertical-align:bottom;" ><button type="submit" data-open="updatefmodal{{$index}}" class="button small" name="update" value="{{ .featurename}}"> Update </button>
+							<div class="reveal" id="updatefmodal{{$index}}" data-reveal>
+								
+	
+								<h3>Update Feature </h3>
+
+								<div class="callout large">
+									<form method="POST" action="/features">							
+									<div class="row small-up-12 collapse">
+										<div class="small-2 columns">
+											<label for="featurecat" class="text-left top"><b>Feature Category</b></label>
+										</div>
+										<div class="small-8 columns ">
+	<!--									<input type="text" id="featurecatupd" name="featurecatupd" placeholder="{{$value.fcatname}}" style="width:90%;" > -->
+											<input type="hidden" id="feacatini" name="feacatini" value="{{$value.fcuid}}"> 
+											<select drop-down-content id="selectupd" name="selectupd" style="width:90%;"  >    
+												<option selected value="" selected disabled hidden >{{ .fcatname }}</option>		
+											{{with $.fdropdown}}
+											{{range $index, $value := .}}
+												<option id="drop1" name=fcat{{$index}} value={{$value.fcuid}}>{{.fcatname}}</option> 
+												
+												<div class="row">{{.fcatname}}</div> 
+											{{end}}
+											{{end}}
+											</select>	
+										</div>
+										
+										<div class="row small-up-12 collapse">
+											<div class="small-2 columns" style="height:20px;"></div>	
+											<div class="small-8 columns" style="height:20px;"></div>
+											<div class="small-2 columns" style="height:20px;"></div>																					
+										</div>		
+												
+										<div class="row small-up-12 collapse">
+											<div class="small-2 columns">
+												<label for="featureupd" class="text-left middle"><b>Feature</b></label>
+											</div>
+											<div class="small-8 columns ">
+												<input type="text" id="featureupd" name ="featureupd" placeholder="{{ .featurename }}" style="width:90%;" >
+												<input type="hidden" id="featureupdid" name="featureupdid" value="{{ .fuid}}"> 
+											</div>							
+											<div class="small-2 columns">
+												<button type="submit" class="button primary text-right middle expanded"> Update </button>
+											</div>
+										</div>										
+														
+										
+									<!--	<div class="small-2 columns">
+											<button type="submit" class="button primary text-right middle expanded"> Update </button>
+										</div> -->
+										
+									</div>
+									</form>
+								</div>							
+								<button class="close-button" data-close aria-label="Close modal" type="button">								
+									<span aria-hidden="true">&times;</span>
+								</button>										
+
+							</div>
+							</td>
+
+							
+						<!--	<td style="text-align:center; vertical-align:bottom;" ><form action="/updatefeature" method="GET"><button type="submit" class="button small" name="update" value="{{ .featurename}}"> Update </button></form></td> -->
+						</tr>
+	                    {{end}}
+						{{end}}	 
+	        
+						</tbody>						
 					</table>
 				</div>	
 			</div>
@@ -82,36 +176,77 @@
 			</div>
 				<div class="small-9 columns small-centered columns">
 					<div class="callout large">
+						<form method="POST" action="/features">							
 						<div class="row small-up-12 collapse">
 							<div class="small-2 columns">
-								<label for="feature" class="text-left top"><b>Add a Feature Category</b></label>
+								<label for="featurecat" class="text-left top"><b>Add a Feature Category</b></label>
 							</div>
 							<div class="small-8 columns ">
-								<input type="text" id="feature" placeholder="Enter the Feature Category Description" style="width:90%;" >
+								<input type="text" id="featurecat" name="featurecat" placeholder="Enter the Feature Category Description" style="width:90%;" >
 							</div>
 							<div class="small-2 columns">
 								<button type="submit" class="button primary text-right middle expanded"> Add </button>
 							</div>
 						</div>
+						</form>
 					</div>
 				<div class="callout large">
+					<div class="row small-up-12 collapse">
+					<div class="small-7 columns"> 
+						<input type="search" placeholder="search" name="Search" id="Search" onkeyup="Search()" style="position: relative; width:90%">
+					</div>	
+					<div class="small-1 columns"></div>
+					<div class="small-1 columns" style="text-align:center;">
+						<form action="/deletefeacat" method="GET"> 
+						<button type="submit" class="button small expanded" id="action" name="action" value="delete" data-equalizer-watch> Delete </button>	
+						<div id="show-output1"></div>		
+						</form>	
+					</div>
+					</div>	
 					<table>
 						<thead>
 							<tr>
-								<th>ID</th>
+								<th>Select</th>
 								<th>Feature Category Description</th>
+								<th style="text-align:center;"  >Update Record</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>hi</td>
-								<td>hi</td>
+						{{ with .fcat }}		
+						{{range $index, $value := .}}
+						<tr class="tablerow">
+							<td> <input id="checkbox" name="checkbox" value=1 type="checkbox" onclick="onClickHandler()"> &nbsp; &nbsp; &nbsp; &nbsp; </td>
+							<td class="feature-category-name"> {{ .fcatname}} </td>
+							<td style="text-align:center; vertical-align:bottom;" ><button type="submit" data-open="updatefcmodal{{$index}}" class="button small" name="update" value="{{ .fcatname}}"> Update </button>
+							<div class="reveal" id="updatefcmodal{{$index}}" data-reveal>
+								<h3>Update Feature Category</h3>
+
+								<div class="callout large">
+									<form method="POST" action="/features">							
+									<div class="row small-up-12 collapse">
+										<div class="small-2 columns">
+											<label for="featurecat" class="text-left top"><b>Feature Category</b></label>
+										</div>
+										<div class="small-8 columns ">
+											<input type="text" id="featurecatupd" name="featurecatupd" placeholder="{{$value.fcatname}}" style="width:90%;" > 
+											<input type="hidden" id="featurecatupdid" name="featurecatupdid" value="{{$value.fcuid}}">
+										</div>
+										<div class="small-2 columns">
+											<button type="submit" class="button primary text-right middle expanded"> Update </button>
+										</div>
+									</div>
+									</form>
+								</div>							
+								<button class="close-button" data-close aria-label="Close modal" type="button">								
+									<span aria-hidden="true">&times;</span>
+								</button>										
+
+							</div>
+							</td>
 							</tr>
-							<tr>
-								<td>hi</td>
-								<td>hi</td>
-							</tr>				
-						</tbody>
+							 {{ end }}
+							 {{ end }}  
+							</tbody>
 					</table>
 				</div>	
 			</div>
@@ -163,6 +298,107 @@
 </div>
 
 -->
+<script>
+
+/*	
+$("#drop1").children("option").filter(":selected").text()
+
+
+function save_data(selectobj) {
+	console.log("function save data");
+	var idx = selectObj.selectedIndex;
+	var which = selectobj.options[idx].value;
+	console.log(which)
+}	
+
+*/
+
+
+$("#select").change(function() {
+	console.log("hi");
+	console.log($(this));
+	var sel = $('#select').val();
+	console.log(sel);
+});
+
+$("#selectupd").change(function() {
+	console.log("hi");
+	console.log($(this));
+	var sel = $('#selectupd').val();
+	console.log(sel);
+});
+
+/* original
+function Search() {
+	var input, filter
+	input = document.getElementById("Search")
+	filter = input.value.toUpperCase();
+	a = document.getElementsByClassName("tablerow");
+	console.log(a);
+	if (a) {
+		for (i=0; i < a.length; i++) {
+			b = a[i].getElementsByClassName("feature-category-name");
+			console.log(b);
+			if (b) {
+				for (j=0; j < b.length; j++) {
+				c = b[j];	
+				if (c.innerHTML.toUpperCase().indexOf(filter) > -1) {
+					a[i].style.display = "";
+				} else {
+					a[i].style.display = "none";
+					}
+				}
+			}
+		}
+	}
+}
+*/
+
+function Search() {
+	var input, filter
+	input = document.getElementById("Search")
+	filter = input.value.toUpperCase();
+	a = document.getElementsByClassName("tablerow");
+	console.log(a);
+	if (a) {
+		for (i=0; i < a.length; i++) {
+			b = a[i].getElementsByClassName("feature-category-name");
+			d = a[i].getElementsByClassName("feature-name");
+			console.log(b);
+			console.log(d);
+			if (b || d) {
+				for (j=0; j < b.length; j++) {	
+				c = b[j];	
+				e = d[j]
+				if (c.innerHTML.toUpperCase().indexOf(filter) > -1 || e.innerHTML.toUpperCase().indexOf(filter) > -1){
+					a[i].style.display = "";
+				} else {
+					a[i].style.display = "none";
+					}
+				}
+			}
+		}
+	}
+}
+
+
+function onClickHandler(){
+    var array =  $("input[name='checkbox']:checked").map(function(){
+    return this.value;
+}).get()
+
+	var selectedBrands = JSON.stringify(array);
+	console.log(array);
+	console.log(selectedBrands);
+	var output = "<input type='hidden' id='selectedbrandids' name='selectedbrandids' value='"+selectedBrands+"'>";
+	$("#show-output1").html(output);
+	$("#show-output2").html(output);
+	$("#show-output3").html(output);
+}
+
+
+	
+</script>
 
 {{template "footer" .}}
 {{end}}

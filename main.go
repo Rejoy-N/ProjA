@@ -291,16 +291,21 @@ func updatebrand(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("fetch column names or store array... for now using temp fix")
 
 		img := r.FormValue("imgname")
-		fmt.Println(img)
+		pexists := 1
 
 		r.Body = http.MaxBytesReader(w, r.Body, 2*1024*1024)
 		fmt.Println("Reading file info...")
 		file, header, err := r.FormFile("brandlogo")
-		if err == nil {
-			img = header.Filename
+		if err != nil {
+			fmt.Println("Image is not being updated...")
+		} else {
+			img = govalidator.ToString(header.Filename)
+			pexists = 2
 		}
 
+		fmt.Println(img)
 		fmt.Println("file read successfully...")
+
 		/*
 			var udata = make(map[string]string)
 			udata["Buid"] = r.FormValue("brandid")
@@ -330,18 +335,21 @@ func updatebrand(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 		if result == true {
-			f, err := os.Create("./assets/brands/" + img)
-			if err != nil {
-				// http.Error(w, err.Error(), http.StatusInternalServerError)
-				panic(err)
+			if pexists == 2 {
+				f, err := os.Create("./assets/brands/" + img)
+				if err != nil {
+					// http.Error(w, err.Error(), http.StatusInternalServerError)
+					panic(err)
+				}
+				defer f.Close()
+				fmt.Println("Saving file to location....")
+				if _, err := io.Copy(f, file); err != nil {
+					// http.Error(w, err.Error(), http.StatusInternalServerError)
+					panic(err)
+				}
+				fmt.Println("Saved file image.....")
 			}
-			defer f.Close()
-			fmt.Println("Saving file to location....")
-			if _, err := io.Copy(f, file); err != nil {
-				// http.Error(w, err.Error(), http.StatusInternalServerError)
-				panic(err)
-			}
-			fmt.Println("Saved file image.....")
+
 			updatebrandRow(udata)
 		}
 		http.Redirect(w, r, "/brand", 302)
@@ -349,8 +357,128 @@ func updatebrand(w http.ResponseWriter, r *http.Request) {
 }
 
 func features(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case "GET":
+		fmt.Println("Processing GET request for feature data....")
+		fdata, err := getFeaturesData()
+		if err != nil {
+			fmt.Println(err)
+		}
+		fmt.Println(fdata)
+		fcdata, err := getFeacatData()
+		if err != nil {
+			fmt.Println(err)
+		}
+		frdata := make(map[string]interface{})
+
+		// frdata["fcat"] = nil
+		// frdata["fdropown"] = nil
+		// frdata["features"] = nil
+
+		var a ([]map[string]interface{})
+		err = json.Unmarshal(fdata, &a)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		var b ([]map[string]interface{})
+		err = json.Unmarshal(fcdata, &b)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		frdata["features"] = a
+		frdata["fcat"] = b
+		frdata["fdropdown"] = b
+
+		fmt.Println(frdata)
+		render(w, "features", frdata)
+
+	case "POST":
+		fmt.Println("Processing POST request for feature data")
+
+		//input feature
+		feacatid := r.FormValue("select")
+		feature := r.FormValue("feature")
+
+		//update feature category
+		featcatupd := r.FormValue("featurecatupd")
+		featcatupdid := r.FormValue("featurecatupdid")
+
+		//update Feature
+		fcatupdid := r.FormValue("feacatini")
+		a := r.FormValue("selectupd")
+
+		if a != "" {
+			fcatupdid = a
+		}
+
+		fupdid := r.FormValue("featureupdid")
+		fupd := r.FormValue("featureupd")
+
+		fmt.Println(feacatid)
+		fmt.Println(feature)
+		fmt.Println(featcatupd)
+		fmt.Println(featcatupdid)
+
+		fmt.Println(fcatupdid)
+		fmt.Println(fupdid)
+		fmt.Println(fupd)
+
+		if feature != "" {
+			err := saveFeature(feacatid, feature)
+			if err != nil {
+				fmt.Println(err)
+			}
+
+		}
+
+		//input feature category
+		feacat := r.FormValue("featurecat")
+		fmt.Println(feacat)
+		if feacat != "" {
+			err := saveFeaCat(feacat)
+			if err != nil {
+				fmt.Println(err)
+			}
+		}
+
+		if featcatupd != "" {
+			fmt.Println("Update Feature Category..")
+
+			var data = map[string]string{
+				"fcuid":    featcatupdid,
+				"fcatname": featcatupd,
+			}
+			err := updateFeaCat(data)
+			if err != nil {
+				fmt.Println(err)
+			}
+		}
+
+		if fupd != "" {
+			fmt.Println("Update Feature..")
+			var upfdata = map[string]string{
+				"fuid":        fupdid,
+				"fcatid":      fcatupdid,
+				"featurename": fupd,
+			}
+			fmt.Println(upfdata)
+			err := updateFeature(upfdata)
+			if err != nil {
+				fmt.Println(err)
+			}
+		}
+
+		http.Redirect(w, r, "/features", 302)
+	}
+}
+
+/*
+func features(w http.ResponseWriter, r *http.Request) {
 	render(w, "features", "This is the Manage Features page")
 }
+*/
 
 func product(w http.ResponseWriter, r *http.Request) {
 	render(w, "product", "This is the Manage Product page")

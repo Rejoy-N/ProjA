@@ -25,7 +25,7 @@ func connectDb() (db *sql.DB) {
 	return db
 }
 
-func getTabledata(rs *sql.Rows, col []string) ([]byte, error) {
+func getTableData(rs *sql.Rows, col []string) ([]byte, error) {
 	//initialize a empty slice of map tableData  with key as string and data of interface type
 	tableData := make([]map[string]interface{}, 0)
 	// initialize a slice of map data values of length equal to the number of columns
@@ -85,7 +85,7 @@ func getRowData(colparams []string, tbname string, colname string, list []string
 		panic(err)
 	}
 	fmt.Println("Retrieving json object of row records...")
-	rowsjsondata, err := getTabledata(rows, columns)
+	rowsjsondata, err := getTableData(rows, columns)
 	fmt.Println(string(rowsjsondata))
 	if err != nil {
 		return nil, err
@@ -142,21 +142,27 @@ func qVal(op string, ids []string, tbname string, colname1 string, colname2 stri
 func saveorupdateRowData(colparams map[string]string, tbname string, pkey string, unchangedparam int) error {
 	fmt.Println("updating row data..")
 	fmt.Println(colparams)
+
 	q := "Insert into " + tbname + " "
 	col := "("
 	l := "("
 	paramcount := 0
 	plist := ""
 	vlist := ""
+
 	for key, val := range colparams {
 		col += key
 		paramcount++
 		s := strconv.Itoa(paramcount)
 		l += "$" + s
+
+		// vlist += `"` + val + `"`
+		vlist += "'" + val + "'"
+
 		if paramcount > unchangedparam {
 			plist += key + " = EXCLUDED." + key
-			vlist += val
 		}
+
 		if paramcount < len(colparams) {
 			col += ", "
 			l += ", "
@@ -169,23 +175,26 @@ func saveorupdateRowData(colparams map[string]string, tbname string, pkey string
 		} else {
 			col += ") "
 			l += ") "
-			plist += ";"
+			plist += " ;"
 			if vlist != "" {
 				vlist += ""
 			}
 		}
 	}
 
-	q += col + "values " + l + "On conflict " + "(" + pkey + ") Do Update Set " + plist
+	// q += col + "values " + l + "ON CONFLICT " + "(" + pkey + ") DO UPDATE SET " + plist
+	q += col + "values " + "(" + vlist + ") " + "ON CONFLICT " + "(" + pkey + ") DO UPDATE SET " + plist
+
 	fmt.Println(q)
-	fmt.Println(vlist)
-	/*
-		db := connectDb()
-		_, err := db.Exec(q, vlist)
-		if err != nil {
-			return err
-		}
-	*/
+
+	db := connectDb()
+	/*  _, err := db.Exec("Insert into brands(Buid, Bstatus, Bimage, Bname) values ($1, $2, $3, $4) on Conflict (buid) do UPDATE set Bimage = EXCLUDED.Bimage, Bname = EXCLUDED.Bname ;", "one", "two", "three", "four")
+	 */
+	_, err := db.Exec(q)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
 	return nil
 }
 
@@ -195,6 +204,7 @@ func readimageFile(r *http.Request) string {
 	fmt.Println("Reading file info...")
 	file, header, err := r.FormFile("brandlogo")
 	if err != nil {
+
 		// http.Error(w, err.Error(), http.StatusInternalServerError)
 		panic(err)
 	}

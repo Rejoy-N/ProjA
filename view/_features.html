@@ -1,0 +1,14 @@
+{{define "features"}}
+{{template "header" .}}
+
+{{ range .features }}
+	{{ .fcatname}}
+	
+	dropdown
+	{{ $.fdropdown }}
+{{end}}
+
+
+{{template "footer" .}}
+{{end}}
+

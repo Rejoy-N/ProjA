@@ -56,7 +56,7 @@ func getBranddata() ([]byte, error) {
 		panic(err)
 	}
 	fmt.Println("Retrieving json object of brand data records...")
-	brandjsondata, err := getTabledata(rows, columns)
+	brandjsondata, err := getTableData(rows, columns)
 	fmt.Println(string(brandjsondata))
 	if err != nil {
 		return nil, err
@@ -109,9 +109,26 @@ func activateBrand(ids []string) error {
 	return nil
 }
 
+/*
 func updatebrandRow(data map[string]string) error {
 	fmt.Println("Updating Brand data..")
 	fmt.Println(data)
 	saveorupdateRowData(data, "brands", "buid", 2)
 	return nil
+}
+*/
+
+func updatebrandRow(data *Brand) error {
+	fmt.Println("Updating brand data..")
+	fmt.Println(data)
+	var udata = make(map[string]string)
+	udata["Buid"] = data.Buid
+	udata["Bstatus"] = data.Bstatus
+	udata["Bimage"] = data.Bimage
+	udata["Bname"] = data.Bname
+	fmt.Println("Printing udata..")
+	fmt.Println(udata)
+	saveorupdateRowData(udata, "brands", "buid", 2)
+	return nil
+
 }
